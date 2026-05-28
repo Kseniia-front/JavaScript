@@ -1,74 +1,116 @@
-// Задача 1 - с помощью метода массива выведи в консоль значение каждого элемента
-const names = ["Alice", "Bob", "Charlie"];
-names.forEach(function (name) {
-  console.log(name);
-});
-
-// Задача 2 - Выведи в консоль имена с порядковым номером (начиная с 1)
-names.forEach(function (name, index) {
-  console.log(index + 1 + ". " + name);
-});
-
-// Задача 3 - Массив заказов
-// Заказ 101 laptop
-// Заказ 102 Phone
-// ...
-const orders = [
-  { id: 101, product: "Laptop" },
-  { id: 102, product: "Phone" },
-  { id: 103, product: "Tablet" },
+// Задача 1 - Объеденить клиентов и добавить id
+const customers1 = [
+  { name: "John", city: "London" },
+  { name: "Maria", city: "Berlin" },
 ];
-orders.forEach(function (order) {
-  console.log("Заказ #" + order.id + ": " + order.product);
-});
+const customers2 = [
+  { name: "Peter", city: "Paris" },
+  { name: "Anna", city: "Madrid" },
+];
+const allCustomers = [...customers1, ...customers2].map(
+  function (customer, index) {
+    return {
+      name: customer.name,
+      city: customer.city,
+      id: index + 101,
+    };
+  },
+);
+console.log(allCustomers);
 
-// Задача 4 - Удвой все числв в массиве
-// Верни новый массив: 2, 4, 6
-const nums = [1, 2, 3];
-const doubledNums = nums.map(function (num) {
-  return num * 2;
-});
-console.log(doubledNums);
+// Задача 2 - Получить email активных заказов
+const orders = [
+  { id: 1, email: "user1@mail.com", isActive: true },
+  { id: 2, email: "user2@mail.com", isActive: false },
+  { id: 3, email: "user3@mail.com", isActive: true },
+];
+const activeEmails = orders
+  .filter(function (order) {
+    return order.isActive === true;
+  })
+  .map(function (order) {
+    return order.email;
+  });
+console.log(activeEmails);
 
-// Задача 5 - Из массива имён создай массив объектов
-const arrayNames = ["Alice", "Bob"];
-const namesInfo = arrayNames.map(function (name) {
+// Задача 3 - Сформировать описание товаров
+const products = [
+  { title: "Laptop", price: 1000 },
+  { title: "Phone", price: 600 },
+];
+const productDescriptions = products.map(function (product) {
+  return "Товар: " + product.title + " - Цена: " + product.price;
+});
+console.log(productDescriptions);
+
+// Задча 4 - Оставить клиентов с высоким балансом
+// добавить каждому клиенту новое свойство isVip
+// true - если больше или равен 1500
+// false - если меньше
+const clients = [
+  { name: "Lena", balance: 900 },
+  { name: "Dima", balance: 2000 },
+  { name: "Max", balance: 1500 },
+];
+const vipClients = clients.map(function (client) {
   return {
-    name: name,
-    length: name.length,
+    name: client.name,
+    balance: client.balance,
+    isVip: client.balance >= 1500,
   };
 });
-console.log(namesInfo);
+console.log(vipClients);
 
-// Задача 6 - У тебя массив пользователей users
-// Создай новый массив строк вида Alice 20 лет, Bob 17лет
-const users = [
-  { name: "ALice", age: 20 },
-  { name: "Bob", age: 17 },
+// Задача 5 - Названия товаров в наличии и дешевле 100
+// найти товары только те, которые
+// есть в наличии (true)
+// стоят меньше 100
+const items = [
+  { title: "Backpack", inStock: true, price: 40 },
+  { title: "Shoes", inStock: false, price: 80 },
+  { title: "Watch", inStock: true, price: 120 },
 ];
-const userStrings = users.map(function (user) {
-  return user.name + " (" + user.age + " лет)";
-});
-console.log(userStrings);
+const availableCheapItems = items
+  .filter(function (item) {
+    return item.inStock === true && item.price < 100;
+  })
+  .map(function (item) {
+    return item.title;
+  });
+console.log(availableCheapItems);
 
-// Задача 7 - Отфильтровать пользователей старше 18 лет
-const dataUsers = [
-  { name: "Alice", age: 20 },
-  { name: "Bob", age: 17 },
-  { name: "Charlie", age: 25 },
+// Задача 6 - Сгруппировать заказы по статусу
+// разделить заказы по статусу в отдельные массивы внутри объекта
+const ordersBystatus = [
+  { id: 1, status: "pending" },
+  { id: 2, status: "delivered" },
+  { id: 3, status: "pendiing" },
+  { id: 4, status: "cancelled" },
+  { id: 5, status: "delivered" },
 ];
-const adultUsers = dataUsers.filter(function (user) {
-  return user.age > 18;
-});
-console.log(adultUsers);
+const result = ordersBystatus.reduce(function (acc, order) {
+  if (acc[order.status] === undefined) {
+    acc[order.status] = [];
+  }
+  acc[order.status].push(order);
+  return acc;
+}, {});
+console.log(result);
 
-// Задача 8 - У тебя массив заказов, нужно оставить только те, где статус - delivered
-const dataOrders = [
-  { id: 1, status: "delivered" },
-  { id: 2, status: "pending" },
-  { id: 3, status: "delivered" },
+// Задача 7 - Подсчитать количество товаров по категориям
+// вернуть объект, в котором ключ - категория, а значение - количество товаров в ней
+const products7 = [
+  { name: "Laptop", category: "electronics" },
+  { name: "Shirt", category: "clothing" },
+  { name: "Phone", category: "electronics" },
+  { name: "Pants", category: "clothing" },
+  { name: "Blender", category: "home" },
 ];
-const deliveredOrders = dataOrders.filter(function (order) {
-  return order.status === "delivered";
-});
-console.log(deliveredOrders);
+const result7 = products7.reduce(function (acc, product) {
+  if (acc[product.category] === undefined) {
+    acc[product.category] = 0;
+  }
+  acc[product.category] = acc[product.category] + 1;
+  return acc;
+}, {});
+console.log(result7);
