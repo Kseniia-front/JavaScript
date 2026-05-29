@@ -1,116 +1,238 @@
-// Задача 1 - Объеденить клиентов и добавить id
-const customers1 = [
-  { name: "John", city: "London" },
-  { name: "Maria", city: "Berlin" },
+// Задача 1 - Назначить пользователям id
+// Создать функцию addIds(arr)
+// с помощью forEach добавляет каждому объекту после id
+// возваращает обновленный массив
+const users = [{ name: "Alex" }, { name: "John" }, { name: "Kate" }];
+function addIds(arr) {
+  arr.forEach(function (user, index) {
+    user.id = index + 1;
+  });
+  return arr;
+}
+const userWithIds = addIds(users);
+console.log(userWithIds);
+
+// Задача 2 - Добавить статус онлайн
+// создать функцию setOnlaineStatus(arr)
+// если LastVisit <= 3, то onlain = true
+// иначе onlain = false
+// дабвить каждому объекту через forEach
+const usersOnline = [
+  { name: "Alex", lastVisit: 2 },
+  { name: "John", lastVisit: 10 },
+  { name: "Kate", lastVisit: 1 },
 ];
-const customers2 = [
-  { name: "Peter", city: "Paris" },
-  { name: "Anna", city: "Madrid" },
+function setOnlineStatus(arr) {
+  arr.forEach(function (user) {
+    if (user.lastVisit <= 3) {
+      user.online = true;
+    } else {
+      user.online = false;
+    }
+  });
+  return arr;
+}
+const updatedUsers = setOnlineStatus(usersOnline);
+console.log(updatedUsers);
+
+// Задача 3 - Активные пользователи с телефонами
+// создать функцию getValidUsers(arr)
+// возвращает только тех, у кого isActiv = true и есть Phone
+const userData = [
+  { name: "Alex", isActive: true, phone: "123" },
+  { name: "John", isActive: false, phone: null },
+  { name: "Kate", isActive: true, phone: "456" },
 ];
-const allCustomers = [...customers1, ...customers2].map(
-  function (customer, index) {
+function getValidUsers(arr) {
+  const validUsers = arr.filter(function (user) {
+    return user.isActive === true && user.phone !== null;
+  });
+  return validUsers;
+}
+const usersWithPhones = getValidUsers(userData);
+console.log(usersWithPhones);
+
+// Задача 4 - Дорогие и доступнфе товары
+// создать функцию getAvaiLableExpensive(arr)
+// вернуть товары дороже 1000 и которые есть в наличии
+const shopItems = [
+  { title: "Phone", price: 800, inStock: true },
+  { title: "TV", price: 1500, inStock: false },
+  { title: "Laptop", price: 1200, inStock: true },
+];
+function getAvaiLableExpensive(arr) {
+  const avaiLableItems = arr.filter(function (item) {
+    return item.price > 1000 && item.inStock === true;
+  });
+  return avaiLableItems;
+}
+const expensiveItems = getAvaiLableExpensive(shopItems);
+console.log(expensiveItems);
+
+// Задача 5 - Добавить описание пользователя
+// создать функцию addDescription(arr)
+// добавить каждому объекту поле description: имя и возвраст
+const people = [
+  { name: "Alex", age: 20 },
+  { name: "John", age: 30 },
+];
+function addDescription(arr) {
+  const peopleWithDescription = arr.map(function (person) {
     return {
-      name: customer.name,
-      city: customer.city,
-      id: index + 101,
+      name: person.name,
+      age: person.age,
+      description: "Имя: ${person.name}, Возраст: ${person.age}",
     };
-  },
-);
-console.log(allCustomers);
-
-// Задача 2 - Получить email активных заказов
-const orders = [
-  { id: 1, email: "user1@mail.com", isActive: true },
-  { id: 2, email: "user2@mail.com", isActive: false },
-  { id: 3, email: "user3@mail.com", isActive: true },
-];
-const activeEmails = orders
-  .filter(function (order) {
-    return order.isActive === true;
-  })
-  .map(function (order) {
-    return order.email;
   });
-console.log(activeEmails);
+  return peopleWithDescription;
+}
+const updatedPeople = addDescription(people);
+console.log(updatedPeople);
 
-// Задача 3 - Сформировать описание товаров
-const products = [
-  { title: "Laptop", price: 1000 },
-  { title: "Phone", price: 600 },
+// Задача 6 - Формирование статуса заказа
+// создать функцию addSatus(arr)
+// если Total > 1000, то status = Vip
+// иначе status = обычный
+const orderList = [
+  { id: 1, total: 500 },
+  { id: 2, total: 2000 },
 ];
-const productDescriptions = products.map(function (product) {
-  return "Товар: " + product.title + " - Цена: " + product.price;
-});
-console.log(productDescriptions);
-
-// Задча 4 - Оставить клиентов с высоким балансом
-// добавить каждому клиенту новое свойство isVip
-// true - если больше или равен 1500
-// false - если меньше
-const clients = [
-  { name: "Lena", balance: 900 },
-  { name: "Dima", balance: 2000 },
-  { name: "Max", balance: 1500 },
-];
-const vipClients = clients.map(function (client) {
-  return {
-    name: client.name,
-    balance: client.balance,
-    isVip: client.balance >= 1500,
-  };
-});
-console.log(vipClients);
-
-// Задача 5 - Названия товаров в наличии и дешевле 100
-// найти товары только те, которые
-// есть в наличии (true)
-// стоят меньше 100
-const items = [
-  { title: "Backpack", inStock: true, price: 40 },
-  { title: "Shoes", inStock: false, price: 80 },
-  { title: "Watch", inStock: true, price: 120 },
-];
-const availableCheapItems = items
-  .filter(function (item) {
-    return item.inStock === true && item.price < 100;
-  })
-  .map(function (item) {
-    return item.title;
+function addStatus(arr) {
+  const orderWithStatus = arr.map(function (order) {
+    return {
+      id: order.id,
+      total: order.total,
+      status: order.total > 1000 ? "Vip" : "Обычный",
+    };
   });
-console.log(availableCheapItems);
+  return orderWithStatus;
+}
+const updatedOrders = addStatus(orderList);
+console.log(updatedOrders);
 
-// Задача 6 - Сгруппировать заказы по статусу
-// разделить заказы по статусу в отдельные массивы внутри объекта
-const ordersBystatus = [
-  { id: 1, status: "pending" },
-  { id: 2, status: "delivered" },
-  { id: 3, status: "pendiing" },
-  { id: 4, status: "cancelled" },
-  { id: 5, status: "delivered" },
+// Задача 7 - Проверка ролей
+// Создать функцию checkRoles(arr, roles)
+// добавить каждому пользователю поле hasEccess (true/false)
+// true если его role есть в массиве roles
+const roles = ["user", "admin", "moderator"];
+const usersRoles = [
+  { name: "Alex", role: "admin" },
+  { name: "John", role: "guest" },
 ];
-const result = ordersBystatus.reduce(function (acc, order) {
-  if (acc[order.status] === undefined) {
-    acc[order.status] = [];
-  }
-  acc[order.status].push(order);
-  return acc;
-}, {});
-console.log(result);
+function checkRoles(arr, roles) {
+  const usersWithAccess = arr.map(function (user) {
+    return {
+      name: user.name,
+      role: user.role,
+      hasAccess: roles.includes(user.role),
+    };
+  });
+  return usersWithAccess;
+}
+const userWithCheckRoles = checkRoles(usersRoles, roles);
+console.log(userWithCheckRoles);
 
-// Задача 7 - Подсчитать количество товаров по категориям
-// вернуть объект, в котором ключ - категория, а значение - количество товаров в ней
-const products7 = [
-  { name: "Laptop", category: "electronics" },
-  { name: "Shirt", category: "clothing" },
-  { name: "Phone", category: "electronics" },
-  { name: "Pants", category: "clothing" },
-  { name: "Blender", category: "home" },
+// Задача 8 - Позиция категории
+// создать функцию addCategoryIndex(arr, categories)
+// добавить каждому объекту поле categoryIndex
+const categories = ["tech", "food", "books"];
+const productsData = [
+  { title: "Laptop", category: "tech" },
+  { title: "Pizza", category: "food" },
 ];
-const result7 = products7.reduce(function (acc, product) {
-  if (acc[product.category] === undefined) {
-    acc[product.category] = 0;
-  }
-  acc[product.category] = acc[product.category] + 1;
-  return acc;
-}, {});
-console.log(result7);
+function addCategoryIndex(arr, categories) {
+  const result = arr.map(function (item) {
+    return {
+      title: item.title,
+      category: item.category,
+      categoryIndex: categories.indexOf(item.category),
+    };
+  });
+  return result;
+}
+const updatedProducts = addCategoryIndex(productsData, categories);
+console.log(updatedProducts);
+
+// Задача 9 - Найти и отметить пользователя
+// создать функцию markUser(arr, name)
+// найти индекс поль-ля по имени findIndex
+// добавить найденному поль-лю поле selected = true
+const userList = [{ name: "Alex" }, { name: "John" }, { name: "Kate" }];
+function markUser(arr, name) {
+  const index = arr.findIndex(function (user) {
+    return user.name === name;
+  });
+  arr[index].selected = true;
+  return arr;
+}
+const userIndex = markUser(userList, "John");
+console.log(userIndex);
+
+// Задача 10 - Проверка на ошибки
+// создать функцию checkErrors(arr)
+// если есть хотя бы одна ошибка
+// добавить каждому объекту поле hasLobalError = true
+// иначе false
+const logs = [
+  { message: "ok", isError: false },
+  { message: "fail", isError: true },
+];
+function checkErrors(arr) {
+  const hasError = arr.some(function (log) {
+    return log.isError;
+  });
+  const logsWithGlobalError = arr.map(function (log) {
+    return {
+      message: log.message,
+      isError: log.isError,
+      hasGlobalError: hasError,
+    };
+  });
+  return logsWithGlobalError;
+}
+const updatedLogs = checkErrors(logs);
+console.log(updatedLogs);
+
+// Задача 11 - Проверка завершения задач
+// создать функцию markCompLetion(arr)
+// если все задачи выполнены
+// добавить каждому compLetedAll = true
+// иначе false
+const tasksList = [
+  { title: "A", done: true },
+  { title: "B", done: true },
+];
+function markCompLetion(arr) {
+  const allTasksDone = arr.every(function (task) {
+    return task.done === true;
+  });
+  const taskWithCompletion = arr.map(function (task) {
+    return {
+      title: task.title,
+      done: task.done,
+      completedAll: allTasksDone,
+    };
+  });
+  return taskWithCompletion;
+}
+const completedTasks = markCompLetion(tasksList);
+console.log(completedTasks);
+
+// Задача 12 - Сборка объекта пользователей
+// создать функцию toObject(arr)
+// преобразовать массив в оьъект вида:
+// {1: {id: 1, name: 'Alex}, 2: {...}}
+// использовать reduce
+const userArr = [
+  { id: 1, name: "Ales" },
+  { id: 2, name: "John" },
+];
+function toObject(arr) {
+  const usersObject = arr.reduce(function (result, user) {
+    result[user.id] = user;
+    return result;
+  }, {});
+  return usersObject;
+}
+const userById = toObject(userArr);
+console.log(userById);
