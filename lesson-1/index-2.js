@@ -1,26 +1,25 @@
-// Задача 2 - Симуляция очереди заказов
-// создать функцию processOrders(arr)
-// обрабатывать заказы по одному с помощью setInterval
-// каждый раз меняй статус одного заказа на done
-// вывести в консоль какой заказ обработан
-// когда все заказы обработаны - остановить инетрвал
-const orders = [
-  { id: 1, status: "pending" },
-  { id: 2, status: "pending" },
-  { id: 3, status: "pending" },
-];
-function processOrders(arr) {
-  let index = 0;
+// Задача 2 - Авто-сохранение формы
+// создать функцию autoSave(form)
+// менять isSaved на true
+// вывести "Форма сохранена"
+// если поле уже true - не дублируй вывод
+// остановить через 2 сохранения
+const form = {
+  name: "Alex",
+  email: "test@mail.com",
+  isSaved: false,
+};
+function autoSave(form) {
+  let count = 0;
   const intervalId = setInterval(function () {
-    if (index >= arr.length) {
-      clearInterval(intervalId);
-      console.log(arr);
-      return;
+    if (form.isSaved === false) {
+      form.isSaved = true;
+      console.log("Форма сохранена");
     }
-    const order = arr[index];
-    order.status = "done";
-    console.log("Заказ " + order.id + " обработан");
-    index++;
-  }, 1000);
+    count++;
+    if (count >= 2) {
+      clearInterval(intervalId);
+    }
+  }, 3000);
 }
-processOrders(orders);
+autoSave(form);

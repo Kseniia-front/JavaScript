@@ -1,25 +1,24 @@
-// Задача 1 - Отложенная активация поль-лей
-// создать функцию activateUsers(arr)
-// для каждого из поль-лей установить разную задержку
-// через setTimeout меняй isActive на true
-// при активации вывести: поль-ль Alex активирован
-const users = [
-  { name: "Alex", isActive: false },
-  { name: "John", isActive: false },
-  { name: "Kate", isActive: false },
+// Задача 1 - Система уведомлений
+// создать функцию startNotifications(arr)
+// каждую секунду показывать одно уведомление
+// после показа помечать его как read = true
+// когда все уведомления показаны - остановать интервал
+const notifications = [
+  { id: 1, message: "Новое сообщение", read: false },
+  { id: 2, message: "Обновление профиля", read: false },
 ];
-function activateUsers(arr) {
-  arr.forEach(function (user, index) {
-    setTimeout(
-      function () {
-        user.isActive = true;
-        console.log("Пользователь " + user.name + " активирован");
-      },
-      (index + 1) * 1000,
-    );
-  });
-  setTimeout(function () {
-    console.log(arr);
-  }, 4000);
+function startNotifications(arr) {
+  let index = 0;
+  const intervalId = setInterval(function () {
+    if (index >= arr.length) {
+      clearInterval(intervalId);
+      console.log(arr);
+      return;
+    }
+    const notification = arr[index];
+    console.log(notification.message);
+    notification.read = true;
+    index++;
+  }, 1000);
 }
-activateUsers(users);
+startNotifications(notifications);

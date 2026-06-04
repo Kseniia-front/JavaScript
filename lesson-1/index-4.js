@@ -1,30 +1,21 @@
-// Задача 4 - Живое обновление корзины
-// создать функцию watchCart(arr)
-// каждые 2 секунды:
-// добавлять случайный товар в массив
-// пересчитывать общую сумму
-// вывести "товар добавлен, сумма: Х"
-// остановить процесс после 3 добавлений
-const cart = [
-  { title: "Phone", price: 500 },
-  { title: "Case", price: 50 },
+// Задача 4 - Отложенная фильтрация данных
+// создать функцию deLayedFilter(arr)
+// отфильтровать поль-лей старшу 18
+// добавить им поле isAdult = true
+const usersData = [
+  { name: "Alex", age: 20 },
+  { name: "John", age: 17 },
+  { name: "Kate", age: 25 },
 ];
-function watchCart(arr) {
-  let count = 0;
-  const intervalId = setInterval(function () {
-    arr.push({
-      title: "Mouse",
-      price: 100,
+function delayedFilter(arr) {
+  setTimeout(function () {
+    const result = arr.filter(function (user) {
+      return user.age > 18;
     });
-    let sum = 0;
-    arr.forEach(function (item) {
-      sum = sum + item.price;
+    result.forEach(function (user) {
+      user.isAdult = true;
     });
-    console.log("Товар добавлен, сумма: " + sum);
-    count++;
-    if (count >= 3) {
-      clearInterval(intervalId);
-    }
-  }, 2000);
+    console.log(result);
+  }, 1000);
 }
-watchCart(cart);
+delayedFilter(usersData);
