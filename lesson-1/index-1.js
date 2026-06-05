@@ -1,24 +1,22 @@
-// Задача 1 - Система уведомлений
-// создать функцию startNotifications(arr)
-// каждую секунду показывать одно уведомление
-// после показа помечать его как read = true
-// когда все уведомления показаны - остановать интервал
-const notifications = [
-  { id: 1, message: "Новое сообщение", read: false },
-  { id: 2, message: "Обновление профиля", read: false },
+// Задача 1 - Постепенное удаление поль-ля
+// создать функцию removeUsers
+// каждые 1 секунду удалять одного поль-ля
+// вывести "Удалён пользователь: Mike"
+// когда массив остается пустым - останвоить процесс
+const users = [
+  { name: "Alex" },
+  { name: "John" },
+  { name: "Kate" },
+  { name: "Mike" },
 ];
-function startNotifications(arr) {
-  let index = 0;
+function removeUsers(arr) {
   const intervalId = setInterval(function () {
-    if (index >= arr.length) {
+    const removedUser = arr.pop();
+    console.log("Удален пользователь:", removedUser.name);
+    if (arr.length === 0) {
       clearInterval(intervalId);
       console.log(arr);
-      return;
     }
-    const notification = arr[index];
-    console.log(notification.message);
-    notification.read = true;
-    index++;
   }, 1000);
 }
-startNotifications(notifications);
+removeUsers(users);

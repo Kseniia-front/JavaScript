@@ -1,25 +1,30 @@
-// Задача 2 - Авто-сохранение формы
-// создать функцию autoSave(form)
-// менять isSaved на true
-// вывести "Форма сохранена"
-// если поле уже true - не дублируй вывод
-// остановить через 2 сохранения
-const form = {
-  name: "Alex",
-  email: "test@mail.com",
-  isSaved: false,
-};
-function autoSave(form) {
+// Задача 2 - Ротация статусов задач
+// создать функцию rotateStatuses(arr)
+// каждые 2 секунды:
+// менять статус каждой задачи по кругу (new, inProgress, done)
+// вывести обновленный массив
+// остановить после 3 полных циклов
+const tasks = [
+  { title: "Task 1", status: "new" },
+  { title: "Task 2", status: "new" },
+];
+function rotateStatuses(arr) {
   let count = 0;
   const intervalId = setInterval(function () {
-    if (form.isSaved === false) {
-      form.isSaved = true;
-      console.log("Форма сохранена");
-    }
+    arr.forEach(function (task) {
+      if (task.status === "new") {
+        task.status = "inProgress";
+      } else if (task.status === "inProgress") {
+        task.status = "done";
+      } else if (task.status === "done") {
+        task.status = "new";
+      }
+    });
+    console.log(JSON.parse(JSON.stringify(arr)));
     count++;
-    if (count >= 2) {
+    if (count >= 3) {
       clearInterval(intervalId);
     }
-  }, 3000);
+  }, 2000);
 }
-autoSave(form);
+rotateStatuses(tasks);
