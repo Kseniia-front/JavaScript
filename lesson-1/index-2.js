@@ -1,27 +1,27 @@
-// Задача 2 - Комментарии только к длинным постам
-// URL
-// https://jsonplaceholder.typicode.com/posts
-// https://jsonplaceholder.typicode.com/comments
-// создать async
-// получить посты и комменты
-// отфильтровать посты, у которых длина боди > 150
-// оставить только комменты, относящиеся к этим постам
-// вернуть массив таких комментов
-// дополнительно добавить каждому комменту поле postId
-// вывести результат
-async function getPostsAndComments() {
-  const postsresponse = await fetch(
-    "https://jsonplaceholder.typicode.com/posts",
-  );
-  const commentsresponse = await fetch(
-    "https://jsonplaceholder.typicode.com/comments",
-  );
-  const posts = await postsresponse.json();
-  const comments = await commentsresponse.json();
-  const longPosts = posts.filter((post) => post.body.length > 150);
-  const result = comments.filter((comment) => {
-    return longPosts.some((post) => post.id === comment.postId);
-  });
-  console.log(result);
+// Задача 2 - Список задач
+// создать функции:
+// 1.saveTasks(tasks), сохраняет массив в ljcalStorage
+// 2.loadTasks(), возвращает массив в localStorage
+// 3.addTasks:
+// загружает текущие задачи
+// добавляет новую задачу
+// сохраняет обратно
+// возвращает обновленный массив
+const tasks = [{ title: "Учить JS", done: false }];
+function saveTasks(tasks) {
+  localStorage.setItem("tasks", JSON.stringify(tasks));
 }
-getPostsAndComments();
+function loadTasks() {
+  const result = localStorage.getItem("tasks");
+  const tasks = JSON.parse(result);
+  return tasks;
+}
+function addTasks(task) {
+  const result = loadTasks();
+  result.push(task);
+  saveTasks(result);
+  return result;
+}
+saveTasks(tasks);
+const result = addTasks({ title: "Практика", done: false });
+console.log(result);
